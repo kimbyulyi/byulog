@@ -1,8 +1,7 @@
+const metaConfig = require("./gatsby-meta-config");
+
 module.exports = {
-  siteMetadata: {
-    siteUrl: "https://www.yourdomain.tld",
-    title: "Byulog",
-  },
+  siteMetadata: metaConfig,
   plugins: [
     "gatsby-plugin-emotion",
     "gatsby-plugin-gatsby-cloud",
@@ -14,18 +13,26 @@ module.exports = {
     {
       resolve: "gatsby-source-filesystem",
       options: {
-        name: "images",
-        path: "./src/images/",
+        name: "src",
+        path: `${__dirname}/src/`,
       },
-      __key: "images",
     },
     {
-      resolve: "gatsby-source-filesystem",
+      resolve: `gatsby-transformer-remark`,
       options: {
-        name: "pages",
-        path: "./src/pages/",
+        footnotes: true,
+        gfm: true,
+        plugins: [
+          "gatsby-remark-relative-images",
+          {
+            resolve: "gatsby-remark-images",
+            options: {
+              maxWidth: 750,
+              linkImagesToOriginal: false,
+            },
+          },
+        ],
       },
-      __key: "pages",
     },
   ],
 };
